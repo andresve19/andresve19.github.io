@@ -37,27 +37,7 @@ Herramienta web, 100% en el navegador (sin backend ni almacenamiento de datos), 
 │   ├── METODOLOGIA_TIRADS.md  # Referencia de la puntuación y las recomendaciones ACR TI-RADS
 │   └── CHANGELOG.md           # Historial de cambios
 └── README.md
-```
-
-## Publicar en GitHub Pages
-
-1. Crea un repositorio en GitHub y sube el contenido de esta carpeta a la rama `main`.
-2. En el repositorio, ve a **Settings → Pages**.
-3. En **Build and deployment → Source**, selecciona **Deploy from a branch**.
-4. En **Branch**, elige `main` y la carpeta `/ (root)`. Guarda.
-5. Tras uno o dos minutos, GitHub publicará la web en:
-   `https://TU-USUARIO.github.io/TU-REPOSITORIO/`
-
-No requiere ningún proceso de compilación (build): es HTML, CSS y JavaScript planos, servidos tal cual.
-
-## Ejecutar en local
-
-No necesitas ningún servidor: basta con abrir `index.html` en el navegador. Si prefieres servirlo por HTTP (recomendado para evitar restricciones de algunos navegadores con `file://`), puedes usar por ejemplo:
-
-```bash
-python3 -m http.server 8000
-# y abrir http://localhost:8000
-```
+"""
 
 ## Aviso clínico
 
@@ -67,6 +47,3 @@ Esta herramienta **apoya la redacción del informe** aplicando de forma consiste
 
 Las mejoras, correcciones o sugerencias son bienvenidas mediante *issues* o *pull requests*. Consulta `docs/CHANGELOG.md` para el historial de versiones.
 
-## Licencia
-
-MIT. Consulta el archivo `LICENSE` si lo añades al repositorio.
