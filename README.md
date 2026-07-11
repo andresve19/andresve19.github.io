@@ -4,9 +4,6 @@ Herramienta web, 100% en el navegador (sin backend ni almacenamiento de datos), 
 
 **[➡ Abrir la aplicación](https://andresve19.github.io/)** *(sustituye este enlace una vez publicada en GitHub Pages)*
 
-![Estado](https://img.shields.io/badge/estado-uso%20clínico%20de%20apoyo-blue)
-![Licencia](https://img.shields.io/badge/licencia-MIT-lightgrey)
-
 ---
 
 ## ¿Qué hace esta herramienta?
