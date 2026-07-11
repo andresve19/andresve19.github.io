@@ -2,7 +2,7 @@
 
 Herramienta web, 100% en el navegador (sin backend ni almacenamiento de datos), para generar informes estructurados de ecografía tiroidea siguiendo el sistema **ACR TI-RADS (2017)**. Está pensada para el flujo de trabajo diario de un radiólogo: selección **point-and-click** de cada categoría, cálculo automático de la puntuación y la categoría TR, y un texto final listo para **copiar y pegar en el RIS**.
 
-**[➡ Abrir la aplicación](https://TU-USUARIO.github.io/TU-REPOSITORIO/)** *(sustituye este enlace una vez publicada en GitHub Pages)*
+**[➡ Abrir la aplicación](https://andresve19.github.io/)** *(sustituye este enlace una vez publicada en GitHub Pages)*
 
 ![Estado](https://img.shields.io/badge/estado-uso%20clínico%20de%20apoyo-blue)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-lightgrey)
