@@ -1,4 +1,5 @@
-  const TR_META = {
+  // Metadatos para cada categoría TI-RADS: etiqueta completa, color de UI y abreviatura.
+    const TR_META = {
         1: { label: "TR1 · Benigno",              color: "var(--tr1)", short: "TR1" },
         2: { label: "TR2 · No sospechoso",         color: "var(--tr2)", short: "TR2" },
         3: { label: "TR3 · Levemente sospechoso",  color: "var(--tr3)", short: "TR3" },
@@ -6,8 +7,10 @@
         5: { label: "TR5 · Altamente sospechoso",  color: "var(--tr5)", short: "TR5" }
     };
 
+    // Estado global de la aplicación
     let noNodulesMode = false;
 
+    // Valores globales de evaluación tiroidea que afectan al texto del informe.
     let globalEval = {
         size: "Normal",
         texture: "Homogénea",
@@ -16,10 +19,12 @@
         mixed: "0"
     };
 
+    // Lista de nódulos añadidos al informe; siempre debe existir al menos uno.
     let nodules = [ freshNodule() ];
     let currentTabId = 1;
     let nextInternalId = 2;
 
+    // Crea un nódulo nuevo con valores por defecto para inicializar el formulario.
     function freshNodule() {
         return {
             internalId: 1,
@@ -35,6 +40,7 @@
         };
     }
 
+    // Inicialización al cargar la página: renderiza pestañas, carga el nódulo activo y construye el informe.
     window.onload = function () {
         renderTabs();
         loadNoduleToForm(currentTabId);
@@ -43,6 +49,7 @@
 
     // ---------- GLOBAL ----------
     function updateGlobalData() {
+        // Actualiza el estado global cuando el usuario cambia las opciones de tiroides.
         globalEval.size = document.getElementById('glSize').value;
         globalEval.texture = document.getElementById('glTexture').value;
         globalEval.totalNodules = document.getElementById('glTotalNodules').value;
@@ -72,6 +79,7 @@
 
     // ---------- TABS ----------
     function renderTabs() {
+        // Renderiza los botones de cada nódulo y muestra el estado actual.
         const container = document.getElementById('tabsContainer');
         container.innerHTML = '';
         nodules.forEach((nod, idx) => {
@@ -99,6 +107,7 @@
     }
 
     function deleteCurrentNodule() {
+        // Elimina el nódulo activo, pero siempre deja al menos uno en la lista.
         if (nodules.length <= 1) {
             alert("Debe mantener al menos un nódulo en el informe.");
             return;
@@ -117,6 +126,7 @@
     }
 
     function resetAll() {
+        // Resetea la aplicación al estado inicial con confirmación del usuario.
         if (!confirm("Esto borrará todos los datos introducidos y comenzará un informe nuevo. ¿Continuar?")) return;
         document.getElementById('glSize').value = 'Normal';
         document.getElementById('glTexture').value = 'Homogénea';
@@ -141,10 +151,12 @@
 
     // ---------- FORM <-> DATA ----------
     function setRadioByValue(name, val) {
+        // Marca el radio button correspondiente según el valor guardado en el modelo.
         document.getElementsByName(name).forEach(r => { r.checked = (r.value === val); });
     }
 
     function getRadioValue(name) {
+        // Lee el valor seleccionado de un grupo de radios.
         for (const r of document.getElementsByName(name)) if (r.checked) return r.value;
         return "";
     }
@@ -158,6 +170,7 @@
     }
 
     function loadNoduleToForm(id) {
+        // Carga en el formulario los datos del nódulo seleccionado.
         const nod = nodules.find(n => n.internalId === id);
         if (!nod) return;
         const idx = nodules.findIndex(n => n.internalId === id) + 1;
@@ -198,6 +211,7 @@
     }
 
     function updateCurrentNoduleData() {
+        // Sincroniza el objeto del nódulo con los cambios actuales del formulario.
         const nod = nodules.find(n => n.internalId === currentTabId);
         if (!nod) return;
 
@@ -224,6 +238,7 @@
 
     // ---------- SCORING ----------
     function getMappingText(type, val) {
+        // Devuelve la descripción y los puntos para cada criterio TI-RADS.
         const maps = {
             comp: {
                 "0": { txt: "Quístico / casi completamente quístico", pts: 0 },
@@ -266,6 +281,7 @@
     }
 
     function scoreNodule(nod) {
+        // Calcula la puntuación TI-RADS y la recomendación clínica para un nódulo.
         const comp = getMappingText('comp', nod.compVal);
         const echo = getMappingText('echo', nod.echoVal);
         const shape = getMappingText('shape', nod.shapeVal);
@@ -298,14 +314,17 @@
         } else if (trLevel <= 2) {
             rec = "No requiere PAAF ni seguimiento.";
         } else if (trLevel === 3) {
+            // Recomendaciones específicas para TI-RADS 3 según el tamaño.
             if (d1 >= 2.5) rec = "PAAF recomendada (diámetro ≥ 2.5 cm).";
             else if (d1 >= 1.5) rec = "Seguimiento recomendado a 1, 3 y 5 años (diámetro ≥ 1.5 cm).";
             else rec = "No requiere seguimiento (por debajo del umbral).";
         } else if (trLevel === 4) {
+            // Recomendaciones para TI-RADS 4 según el tamaño.
             if (d1 >= 1.5) rec = "PAAF recomendada (diámetro ≥ 1.5 cm).";
             else if (d1 >= 1.0) rec = "Seguimiento recomendado a 1, 2, 3 y 5 años (diámetro ≥ 1.0 cm).";
             else rec = "No requiere seguimiento (por debajo del umbral).";
         } else {
+            // Recomendaciones para TI-RADS 5 según el tamaño.
             if (d1 >= 1.0) rec = "PAAF recomendada (diámetro ≥ 1.0 cm).";
             else if (d1 >= 0.5) rec = "Seguimiento recomendado anualmente durante 5 años (diámetro ≥ 0.5 cm).";
             else rec = "Observación (por debajo del umbral).";
@@ -326,6 +345,7 @@
 
     // ---------- REPORT TEXT ----------
     function generateReportText() {
+        // Construye el texto completo del informe que se muestra en el panel de vista previa.
         let text = "";
 
         text += "TÉCNICA\n";
@@ -419,6 +439,7 @@
 
     // ---------- COPY ----------
     function copyReportToClipboard() {
+        // Copia el informe al portapapeles usando la API moderna si está disponible.
         const reportText = document.getElementById('reportPreview').textContent;
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(reportText).then(showToast).catch(() => fallbackCopyText(reportText));
@@ -428,6 +449,7 @@
     }
 
     function fallbackCopyText(text) {
+        // Copia el texto usando un textarea oculto como respaldo para navegadores antiguos.
         const ta = document.createElement("textarea");
         ta.value = text;
         ta.style.position = "fixed";
@@ -441,6 +463,7 @@
     }
 
     function showToast() {
+        // Muestra una notificación breve cuando la copia es exitosa.
         const toast = document.getElementById('copyToast');
         toast.style.display = 'block';
         setTimeout(() => { toast.style.display = 'none'; }, 2500);

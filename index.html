@@ -6,6 +6,7 @@
 <title>Generador de Informe Estructurado · ACR TI-RADS</title>
 <meta name="description" content="Herramienta point-and-click para generar informes estructurados de ecografía tiroidea según ACR TI-RADS, listos para copiar al RIS.">
 <link rel="stylesheet" href="css/style.css">
+<!-- CSS principal para la apariencia del formulario y la vista previa del informe. -->
 </head>
 <body>
 
@@ -19,6 +20,7 @@
         <button class="btn-reset" onclick="resetAll()">↺ Nuevo informe</button>
     </div>
 
+    <!-- Panel principal de opciones globales del tiroides (sin nódulos, tamaño y recuento estimado). -->
     <!-- EVALUACIÓN GLOBAL -->
     <div class="panel">
         <h2 class="panel-title">Evaluación global del tiroides</h2>
@@ -73,6 +75,7 @@
 
     <div class="grid-layout" id="gridLayout">
         <!-- IZQUIERDA: NÓDULOS -->
+        <!-- Contenedor de configuración individual de nódulos y selección de criterios TI-RADS. -->
         <div id="noduleColumn">
             <div class="panel">
                 <div class="nodule-tabs">
@@ -80,6 +83,7 @@
                     <button class="btn-add" id="btnAdd" onclick="addNodule()">+ Añadir nódulo</button>
                 </div>
 
+                <!-- Título dinámico del formulario según el nódulo seleccionado. -->
                 <h2 class="panel-title" id="formPanelTitle">Configuración del nódulo</h2>
 
                 <div class="score-banner" id="scoreBanner"></div>
@@ -183,6 +187,8 @@
         </div>
 
         <!-- DERECHA: VISTA PREVIA -->
+        <!-- Resumen y reporte generado automáticamente con opción de copia. -->
+        <!-- Panel de resumen rápido y texto final listo para copiar. -->
         <div class="results-panel">
             <div class="panel">
                 <h2 class="panel-title">Resumen rápido</h2>
@@ -196,12 +202,14 @@
                 <button class="btn-copy" onclick="copyReportToClipboard()">📋 Copiar informe al portapapeles</button>
                 <div class="toast" id="copyToast">Informe copiado correctamente</div>
 
+                <!-- Mensaje que aparece al copiar el informe con éxito. -->
                 <p class="disclaimer">Esta plantilla apoya la redacción del informe pero no sustituye el criterio del radiólogo. Revise siempre el texto generado antes de insertarlo en el RIS.</p>
             </div>
         </div>
     </div>
 
     <section class="expert-section">
+        <!-- Sección informativa con recordatorios clínicos útiles para el usuario. -->
         <h2>Consejos y recordatorios (guías ACR TI-RADS)</h2>
         <ul class="expert-list">
             <li><strong>Crecimiento significativo:</strong> aumento del 20% en al menos dos dimensiones, mínimo absoluto de 2 mm, o incremento del 50% o más en el volumen nodular total.</li>
