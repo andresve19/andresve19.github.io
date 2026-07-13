@@ -1,46 +1,95 @@
-# Generador de Informe Estructurado · ACR TI-RADS
+# Portal de Herramientas · Informes Estructurados de Radiología
 
-Herramienta web, 100% en el navegador (sin backend ni almacenamiento de datos), para generar informes estructurados de ecografía tiroidea siguiendo el sistema **ACR TI-RADS (2017)**. Está pensada para el flujo de trabajo diario de un radiólogo: selección **point-and-click** de cada categoría, cálculo automático de la puntuación y la categoría TR, y un texto final listo para **copiar y pegar en el RIS**.
+Portal de aplicaciones web, 100% en el navegador (sin backend), para generar informes estructurados de radiología de forma **point-and-click**, listos para copiar y pegar en el RIS. Cada herramienta vive en su propia carpeta bajo `apps/` y aparece automáticamente en la landing page de la raíz.
 
-**[➡ Abrir la aplicación](https://andresve19.github.io/)**
+**[➡ Abrir el portal](https://TU-USUARIO.github.io/TU-REPOSITORIO/)** *(sustituye este enlace una vez publicado en GitHub Pages)*
+
+![Licencia](https://img.shields.io/badge/licencia-MIT-lightgrey)
 
 ---
 
-## ¿Qué hace esta herramienta?
+## Herramientas disponibles
 
-- Evaluación global del tiroides (tamaño, ecoestructura, nódulos totales) o marcado directo de **"tiroides sin nódulos"**.
-- Hasta **4 nódulos** por informe, cada uno con:
-  - Localización (lado y tercio)
-  - Tamaño (diámetro máximo y otras dos dimensiones)
-  - Composición, ecogenicidad, forma, márgenes y focos ecogénicos, con la puntuación ACR TI-RADS visible en cada opción
-  - Comparación con estudios previos (estable / nuevo / aumentado / disminuido / sin estudio previo)
-- Cálculo automático, en tiempo real, de:
-  - Puntuación total y categoría TR1–TR5
-  - Recomendación de PAAF o seguimiento según tamaño y categoría
-- Vista previa del informe completo (técnica, hallazgos e impresión diagnóstica) y **botón de copiar al portapapeles**.
-- Todo el procesamiento ocurre en el propio navegador; no se envían ni almacenan datos de pacientes en ningún servidor.
+| Herramienta | Descripción | Enlace directo |
+|---|---|---|
+| Ecografía tiroidea (ACR TI-RADS) | Generador de informes con cálculo automático de categoría TR y recomendación de PAAF/seguimiento | [`apps/tiroides-tirads/`](apps/tiroides-tirads/) |
 
-## Estructura del proyecto
+*(Esta tabla es orientativa; la lista siempre actualizada se genera desde [`assets/js/apps-manifest.js`](assets/js/apps-manifest.js) y se muestra en la landing page.)*
+
+## Estructura del repositorio
 
 ```
 .
-├── index.html          # Estructura de la página
-├── css/
-│   └── style.css       # Estilos de la interfaz
-├── js/
-│   └── app.js           # Lógica de la aplicación (cálculo TI-RADS y generación del informe)
+├── index.html                      # Landing page del portal
+├── assets/
+│   ├── css/
+│   │   ├── theme.css               # Tokens de diseño compartidos (colores, tipografía)
+│   │   └── landing.css             # Estilos de la landing page
+│   └── js/
+│       ├── apps-manifest.js        # Lista de apps publicadas — fuente única de verdad
+│       └── landing.js              # Renderiza las tarjetas de apps a partir del manifiesto
+├── apps/
+│   └── tiroides-tirads/            # Primera app del portal
+│       ├── index.html
+│       ├── css/style.css
+│       ├── js/app.js
+│       ├── docs/
+│       └── README.md
 ├── docs/
-│   ├── GUIA_DE_USO.md         # Manual de uso paso a paso
-│   ├── METODOLOGIA_TIRADS.md  # Referencia de la puntuación y las recomendaciones ACR TI-RADS
-│   └── CHANGELOG.md           # Historial de cambios
-└── README.md
-"""
+│   ├── ARQUITECTURA.md             # Cómo está organizado el repositorio y por qué
+│   └── COMO_ANADIR_UNA_APP.md      # Guía paso a paso para publicar una app nueva
+└── README.md                       # Este archivo
+```
+
+Consulta [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) para el detalle de cada pieza, y [`docs/COMO_ANADIR_UNA_APP.md`](docs/COMO_ANADIR_UNA_APP.md) cuando quieras publicar tu próxima herramienta.
+
+## Publicar en GitHub Pages
+
+1. Sube el contenido de este repositorio a la rama `main`.
+2. En GitHub: **Settings → Pages**.
+3. En **Build and deployment → Source**, elige **Deploy from a branch**.
+4. En **Branch**, selecciona `main` y la carpeta `/ (root)`. Guarda.
+5. En uno o dos minutos, el portal estará publicado en:
+   - Landing: `https://TU-USUARIO.github.io/TU-REPOSITORIO/`
+   - Cada app: `https://TU-USUARIO.github.io/TU-REPOSITORIO/apps/<slug>/`
+
+No requiere ningún proceso de compilación: es HTML, CSS y JavaScript planos, servidos tal cual.
+
+## Ejecutar en local
+
+```bash
+python3 -m http.server 8000
+# Landing:  http://localhost:8000/
+# Una app:  http://localhost:8000/apps/tiroides-tirads/
+```
+
+Se recomienda servir el proyecto por HTTP (en vez de abrir `index.html` con doble clic) para evitar restricciones de algunos navegadores con el protocolo `file://`.
+
+## Añadir una app nueva
+
+Resumen rápido (detalle completo en [`docs/COMO_ANADIR_UNA_APP.md`](docs/COMO_ANADIR_UNA_APP.md)):
+
+1. Crea `apps/<slug>/` con tu `index.html`, `css/`, `js/` y `docs/`.
+2. Añade un enlace "← Portal de herramientas" en la cabecera de tu app.
+3. Da de alta la app en `assets/js/apps-manifest.js`.
+4. Pruébala en local y haz push a `main`.
+
+La landing page se actualiza sola: no hace falta tocar `index.html` ni `landing.js` de la raíz.
+
+## Principios del portal
+
+- **Sin backend, sin build.** HTML/CSS/JS estático, sin dependencias externas por CDN.
+- **Ningún dato de paciente sale del navegador.** Ni la landing ni las apps hacen llamadas de red con datos introducidos por el usuario; todo el procesamiento es local.
+- **Cada app es autocontenida** dentro de su carpeta, con rutas relativas, para poder desarrollarla, versionarla o extraerla de forma independiente.
 
 ## Aviso clínico
 
-Esta herramienta **apoya la redacción del informe** aplicando de forma consistente los criterios ACR TI-RADS, pero **no sustituye el criterio del radiólogo**. Antes de insertar el texto en el RIS, revisa siempre que los hallazgos descritos y la recomendación se correspondan con la exploración realizada.
+Las herramientas de este portal **apoyan la redacción de informes** aplicando de forma consistente los criterios de cada sistema de clasificación (TI-RADS, y los que se añadan en el futuro), pero **no sustituyen el criterio del profesional**. Revisa siempre el texto generado antes de insertarlo en el RIS.
 
 ## Contribuir
 
-Las mejoras, correcciones o sugerencias son bienvenidas mediante *issues* o *pull requests*. Consulta `docs/CHANGELOG.md` para el historial de versiones.
+Mejoras, correcciones o nuevas apps son bienvenidas mediante *issues* o *pull requests*.
 
+## Licencia
+
+MIT. Consulta el archivo `LICENSE` si lo añades al repositorio.
