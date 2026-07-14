@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Herramientas · Informes Estructurados de Radiología</title>
+<meta name="description" content="Portal de herramientas point-and-click para generar informes estructurados de radiología, listos para copiar al RIS.">
+<link rel="stylesheet" href="assets/css/landing.css">
+</head>
+<body>
+
+<div class="portal">
+
+    <div class="hero">
+        <span class="hero-badge">Portal de herramientas</span>
+        <h1>Informes Estructurados de Radiología</h1>
+        <p>Generadores point-and-click de informes estructurados, con cálculo automático de categorías y recomendaciones, listos para copiar directamente al RIS. Todo se ejecuta en tu navegador: ningún dato de paciente se envía ni se almacena en ningún servidor.</p>
+    </div>
+
+    <div class="section-header">
+        <h2>Herramientas</h2>
+        <span class="count" id="appsCount"></span>
+    </div>
+
+    <div class="apps-grid" id="appsGrid"></div>
+
+    <div class="empty-state" id="emptyState">
+        Todavía no hay herramientas publicadas. Consulta <code>docs/COMO_ANADIR_UNA_APP.md</code> para añadir la primera.
+    </div>
+
+    <footer class="portal-footer">
+        Herramientas de apoyo a la redacción de informes: no sustituyen el criterio clínico del profesional.
+        Consulta <a href="docs/ARQUITECTURA.md">la arquitectura del proyecto</a> si quieres añadir una nueva app.
+    </footer>
+
+</div>
+
+<script src="assets/js/apps-manifest.js"></script>
+<script src="assets/js/landing.js"></script>
+</body>
+</html>
