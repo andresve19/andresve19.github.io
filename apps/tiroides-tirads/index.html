@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de Informe Estructurado · ACR TI-RADS</title>
+<meta name="description" content="Herramienta point-and-click para generar informes estructurados de ecografía tiroidea según ACR TI-RADS, listos para copiar al RIS.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <a href="../../index.html" class="breadcrumb">← Portal de herramientas</a>
+
+    <div class="masthead">
+        <div class="title-block">
+            <h1>Informe Estructurado de Ecografía Tiroidea</h1>
+            <p>Clasificación de nódulos según ACR TI-RADS (2017) · listo para copiar al RIS</p>
+        </div>
+        <button class="btn-reset" onclick="resetAll()">↺ Nuevo informe</button>
+    </div>
+
+
+    <!-- EVALUACIÓN GLOBAL -->
+    <div class="panel">
+        <h2 class="panel-title">Evaluación global del tiroides</h2>
+
+        <label class="opt no-nodules-toggle" style="margin-bottom:16px;">
+            <span><input type="checkbox" id="glNoNodules" onchange="toggleNoNodules()"><span class="opt-label">Tiroides sin nódulos</span></span>
+        </label>
+
+        <div class="cols-3" id="glNoduleCountRow">
+            <div class="form-group">
+                <label>Tamaño</label>
+                <select id="glSize" onchange="updateGlobalData()">
+                    <option value="Normal">Normal</option>
+                    <option value="Aumentado de tamaño (bocio)">Aumentado de tamaño (bocio)</option>
+                    <option value="Disminuido de tamaño">Disminuido de tamaño</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Ecoestructura / textura</label>
+                <select id="glTexture" onchange="updateGlobalData()">
+                    <option value="Homogénea">Homogénea</option>
+                    <option value="Heterogénea difusa">Heterogénea difusa</option>
+                    <option value="Heterogénea, compatible con tiroiditis">Heterogénea, compatible con tiroiditis</option>
+                    <option value="Multinodular difusa">Multinodular difusa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nódulos totales ≥1 cm (estimado)</label>
+                <select id="glTotalNodules" onchange="updateGlobalData()">
+                    <option value="0">0</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6-10">6-10</option>
+                    <option value=">10">&gt;10</option>
+                </select>
+            </div>
+        </div>
+        <div class="cols-2">
+            <div class="form-group">
+                <label>Nódulos espongiformes ≥2 cm, TR1, no descritos abajo</label>
+                <input type="number" id="glSpongiform" value="0" min="0" oninput="updateGlobalData()">
+            </div>
+            <div class="form-group">
+                <label>Nódulos mixtos quístico/sólido ≥1.5 cm, TR2, no descritos abajo</label>
+                <input type="number" id="glMixed" value="0" min="0" oninput="updateGlobalData()">
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-layout" id="gridLayout">
+        <!-- IZQUIERDA: NÓDULOS -->
+        <div id="noduleColumn">
+            <div class="panel">
+                <div class="nodule-tabs">
+                    <div id="tabsContainer" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+                    <button class="btn-add" id="btnAdd" onclick="addNodule()">+ Añadir nódulo</button>
+                </div>
+
+                <h2 class="panel-title" id="formPanelTitle">Configuración del nódulo</h2>
+
+                <div class="score-banner" id="scoreBanner"></div>
+
+                <div class="cols-2">
+                    <div class="form-group">
+                        <label>Lado</label>
+                        <select id="locSide" onchange="handleSideChange()">
+                            <option value="Derecho">Derecho</option>
+                            <option value="Izquierdo">Izquierdo</option>
+                            <option value="Istmo">Istmo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tercio / zona</label>
+                        <select id="locZone" onchange="updateCurrentNoduleData()">
+                            <option value="Superior">Superior</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Inferior">Inferior</option>
+                            <option value="No aplica">No aplica</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="cols-2">
+                    <div class="form-group">
+                        <label>Diámetro máximo, D1, en cm</label>
+                        <input type="number" id="inputSizeD1" step="0.1" min="0" oninput="updateCurrentNoduleData()">
+                    </div>
+                    <div class="form-group">
+                        <label>Otras 2 dimensiones, cm</label>
+                        <input type="text" id="inputSizeOther" placeholder="p. ej. 1.2 x 1.1" oninput="updateCurrentNoduleData()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Composición</label>
+                    <div class="option-group">
+                        <label class="opt"><span><input type="radio" name="comp" value="0" onchange="updateCurrentNoduleData()"><span class="opt-label">Quístico / casi completamente quístico</span></span><span class="pts">0 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="comp" value="0_spong" onchange="updateCurrentNoduleData()"><span class="opt-label">Espongiforme</span></span><span class="pts">0 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="comp" value="1" onchange="updateCurrentNoduleData()"><span class="opt-label">Mixto quístico y sólido</span></span><span class="pts">1 pt</span></label>
+                        <label class="opt"><span><input type="radio" name="comp" value="2" onchange="updateCurrentNoduleData()"><span class="opt-label">Sólido / casi completamente sólido</span></span><span class="pts">2 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="comp" value="2_und" onchange="updateCurrentNoduleData()"><span class="opt-label">No determinable</span></span><span class="pts">2 pts</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ecogenicidad</label>
+                    <div class="option-group">
+                        <label class="opt"><span><input type="radio" name="echo" value="0" onchange="updateCurrentNoduleData()"><span class="opt-label">Anecoico</span></span><span class="pts">0 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="echo" value="1" onchange="updateCurrentNoduleData()"><span class="opt-label">Hiperecoico o isoecoico</span></span><span class="pts">1 pt</span></label>
+                        <label class="opt"><span><input type="radio" name="echo" value="2" onchange="updateCurrentNoduleData()"><span class="opt-label">Hipoecoico</span></span><span class="pts">2 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="echo" value="3" onchange="updateCurrentNoduleData()"><span class="opt-label">Muy hipoecoico</span></span><span class="pts">3 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="echo" value="1_und" onchange="updateCurrentNoduleData()"><span class="opt-label">No determinable</span></span><span class="pts">1 pt</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Forma</label>
+                    <div class="option-group">
+                        <label class="opt"><span><input type="radio" name="shape" value="0" onchange="updateCurrentNoduleData()"><span class="opt-label">No más alto que ancho</span></span><span class="pts">0 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="shape" value="3" onchange="updateCurrentNoduleData()"><span class="opt-label">Más alto que ancho</span></span><span class="pts">3 pts</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Márgenes</label>
+                    <div class="option-group">
+                        <label class="opt"><span><input type="radio" name="margin" value="0" onchange="updateCurrentNoduleData()"><span class="opt-label">Liso</span></span><span class="pts">0 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="margin" value="0_ill" onchange="updateCurrentNoduleData()"><span class="opt-label">Mal definido</span></span><span class="pts">0 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="margin" value="2" onchange="updateCurrentNoduleData()"><span class="opt-label">Lobulado / irregular</span></span><span class="pts">2 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="margin" value="3" onchange="updateCurrentNoduleData()"><span class="opt-label">Extensión extratiroidea</span></span><span class="pts">3 pts</span></label>
+                        <label class="opt"><span><input type="radio" name="margin" value="0_und" onchange="updateCurrentNoduleData()"><span class="opt-label">No determinable</span></span><span class="pts">0 pts</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Focos ecogénicos <span style="font-weight:400; color:var(--ink-soft);">(selección múltiple)</span></label>
+                    <div class="option-group">
+                        <label class="opt"><span><input type="checkbox" id="fociNone" value="0" onchange="handleFociNoneChange()"><span class="opt-label">Ninguno, o artefacto en cola de cometa grande</span></span><span class="pts">0 pts</span></label>
+                        <label class="opt"><span><input type="checkbox" class="foci-cb" value="1" onchange="handleFociCalcChange()"><span class="opt-label">Macrocalcificaciones</span></span><span class="pts">+1 pt</span></label>
+                        <label class="opt"><span><input type="checkbox" class="foci-cb" value="2" onchange="handleFociCalcChange()"><span class="opt-label">Calcificaciones periféricas / en anillo</span></span><span class="pts">+2 pts</span></label>
+                        <label class="opt"><span><input type="checkbox" class="foci-cb" value="3" onchange="handleFociCalcChange()"><span class="opt-label">Focos ecogénicos puntiformes (PEF)</span></span><span class="pts">+3 pts</span></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Comparación con estudios previos</label>
+                    <div class="option-group">
+                        <label class="opt"><span><input type="radio" name="comparison" value="none" onchange="updateCurrentNoduleData()"><span class="opt-label">No hay estudio previo disponible para comparar</span></span></label>
+                        <label class="opt"><span><input type="radio" name="comparison" value="stable" onchange="updateCurrentNoduleData()"><span class="opt-label">Estable respecto a estudio previo</span></span></label>
+                        <label class="opt"><span><input type="radio" name="comparison" value="new" onchange="updateCurrentNoduleData()"><span class="opt-label">Nuevo, no descrito en estudio previo</span></span></label>
+                        <label class="opt"><span><input type="radio" name="comparison" value="increased" onchange="updateCurrentNoduleData()"><span class="opt-label">Aumentado de tamaño respecto a estudio previo</span></span></label>
+                        <label class="opt"><span><input type="radio" name="comparison" value="decreased" onchange="updateCurrentNoduleData()"><span class="opt-label">Disminuido de tamaño respecto a estudio previo</span></span></label>
+                    </div>
+                    <input type="text" id="inputComparisonNote" placeholder="Detalle opcional: fecha o tamaño del estudio previo" style="margin-top:8px;" oninput="updateCurrentNoduleData()">
+                </div>
+
+                <button class="btn-delete" id="btnDelete" onclick="deleteCurrentNodule()">Eliminar este nódulo del informe</button>
+            </div>
+        </div>
+
+        <!-- DERECHA: VISTA PREVIA -->
+        <div class="results-panel">
+            <div class="panel">
+                <h2 class="panel-title">Resumen rápido</h2>
+                <div class="report-summary-list" id="summaryList"></div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Vista previa del informe</h2>
+                <div class="consolidated-report" id="reportPreview">Cargando…</div>
+
+                <button class="btn-copy" onclick="copyReportToClipboard()">📋 Copiar informe al portapapeles</button>
+                <div class="toast" id="copyToast">Informe copiado correctamente</div>
+
+                <p class="disclaimer">Esta plantilla apoya la redacción del informe pero no sustituye el criterio del radiólogo. Revise siempre el texto generado antes de insertarlo en el RIS.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="expert-section">
+        <h2>Consejos y recordatorios (guías ACR TI-RADS)</h2>
+        <ul class="expert-list">
+            <li><strong>Crecimiento significativo:</strong> aumento del 20% en al menos dos dimensiones, mínimo absoluto de 2 mm, o incremento del 50% o más en el volumen nodular total.</li>
+            <li><strong>Nódulos "momificados":</strong> quiste antiguo deshidratado o colapsado; puede simular un nódulo sólido hipoecoico pero es de naturaleza benigna.</li>
+            <li><strong>Nódulos mixtos:</strong> la ecogenicidad y los márgenes se evalúan exclusivamente sobre el componente sólido real.</li>
+            <li><strong>Focos puntiformes (PEF):</strong> no confundir con el "speckle" del parénquima normal ni con coloide denso con cola de cometa larga, ambos marcadores de benignidad.</li>
+            <li><strong>Límite práctico:</strong> se recomienda describir un máximo de 4 nódulos, priorizando los de mayor puntuación TI-RADS, y limitar la indicación de PAAF a un máximo de 2 nódulos por sesión.</li>
+            <li><strong>Redacción:</strong> evite calificativos como "altamente sospechoso" en el cuerpo del informe si el tamaño no alcanza el umbral que justifica PAAF; deje que la categoría y la recomendación hablen por sí solas.</li>
+        </ul>
+    </section>
+
+    <footer style="text-align:center; margin-top:22px; padding:14px; font-size:8pt; color:var(--ink-soft);">
+        Generador de Informe Estructurado ACR TI-RADS · Herramienta de apoyo, no sustituye el criterio clínico del radiólogo.
+    </footer>
+
+</div>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>

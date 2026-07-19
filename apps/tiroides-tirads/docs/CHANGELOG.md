@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1.0
+
+- La app se traslada a `apps/tiroides-tirads/` dentro de la nueva estructura de portal multi-app del repositorio. Sin cambios funcionales.
+- Añadido enlace "← Portal de herramientas" en la cabecera.
+
 ## v1.0.0
 
 - Reestructuración del proyecto en archivos independientes (`index.html`, `css/style.css`, `js/app.js`) para publicación en GitHub Pages.
