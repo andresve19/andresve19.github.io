@@ -1,9 +1,9 @@
     const TR_META = {
-        1: { label: "TR1 · Benigno",              color: "var(--tr1)", short: "TR1" },
-        2: { label: "TR2 · No sospechoso",         color: "var(--tr2)", short: "TR2" },
-        3: { label: "TR3 · Levemente sospechoso",  color: "var(--tr3)", short: "TR3" },
-        4: { label: "TR4 · Moderadamente sospechoso", color: "var(--tr4)", short: "TR4" },
-        5: { label: "TR5 · Altamente sospechoso",  color: "var(--tr5)", short: "TR5" }
+        1: { label: "TR1", color: "var(--tr1)", short: "TR1" },
+        2: { label: "TR2", color: "var(--tr2)", short: "TR2" },
+        3: { label: "TR3", color: "var(--tr3)", short: "TR3" },
+        4: { label: "TR4", color: "var(--tr4)", short: "TR4" },
+        5: { label: "TR5", color: "var(--tr5)", short: "TR5" }
     };
 
     let noNodulesMode = false;
@@ -285,11 +285,11 @@
         const totalPts = comp.pts + echo.pts + shape.pts + margin.pts + fociPts;
 
         let trLevel, tier;
-        if (totalPts === 0) { trLevel = 1; tier = "TR1 (Benigno, 0 puntos)"; }
-        else if (totalPts <= 2) { trLevel = 2; tier = "TR2 (No sospechoso, 2 puntos)"; }
-        else if (totalPts === 3) { trLevel = 3; tier = "TR3 (Levemente sospechoso, 3 puntos)"; }
-        else if (totalPts <= 6) { trLevel = 4; tier = "TR4 (Moderadamente sospechoso, 4-6 puntos)"; }
-        else { trLevel = 5; tier = "TR5 (Altamente sospechoso, ≥7 puntos)"; }
+        if (totalPts === 0) { trLevel = 1; tier = "TR1"; }
+        else if (totalPts <= 2) { trLevel = 2; tier = "TR2"; }
+        else if (totalPts === 3) { trLevel = 3; tier = "TR3"; }
+        else if (totalPts <= 6) { trLevel = 4; tier = "TR4"; }
+        else { trLevel = 5; tier = "TR5"; }
 
         const d1 = parseFloat(nod.sizeD1);
         let rec = "";
@@ -328,15 +328,9 @@
     function generateReportText() {
         let text = "";
 
-        text += "TÉCNICA\n";
-        text += "-------\n";
-        text += "Ecografía de tiroides en modo B y Doppler color, con transductor de alta frecuencia.\n\n";
-
-        text += "HALLAZGOS ECOGRÁFICOS\n";
-        text += "======================\n\n";
-
         text += "Evaluación global del tiroides\n";
         text += "-------------------------------\n";
+        text += "\n";
         text += `Tamaño: ${globalEval.size}\n`;
         text += `Ecoestructura: ${globalEval.texture}\n`;
 
@@ -379,7 +373,7 @@
             text += `  Focos ecogénicos: ${s.fociDescs.join(', ')}\n`;
             text += `  Comparación con estudio previo: ${getComparisonText(nod.comparisonVal)}`;
             text += nod.comparisonNote ? ` (${nod.comparisonNote})\n` : "\n";
-            text += `  Puntuación total: ${s.totalPts} pts  →  ${s.tier}\n`;
+            text += `  Puntuación total: ${s.totalPts} pts\n`;
             text += `  Recomendación: ${s.rec}\n\n`;
         });
 
