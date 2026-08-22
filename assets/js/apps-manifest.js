@@ -30,6 +30,15 @@ const APPS_MANIFEST = [
     path: "apps/doppler-tsa/index.html",
     status: "disponible",
     tags: ["Radiología", "Ecografía", "Doppler", "TSA"]
+  },
+  {
+    slug: "lund-mackay",
+    title: "Informe Estructurado · TC Senos Paranasales (Lund-Mackay)",
+    description:
+      "Generador point-and-click de informes de TC de senos paranasales, con cálculo automático del score de Lund-Mackay por seno y complejo osteomeatal, y registro de variantes anatómicas de relevancia quirúrgica, listo para copiar al RIS.",
+    path: "apps/lund-mackay/index.html",
+    status: "disponible",
+    tags: ["Radiología", "Cabeza y cuello", "TC", "Senos paranasales"]
   }
 
   // Ejemplo de próxima app (descomenta y adapta cuando la crees):
