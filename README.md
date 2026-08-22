@@ -2,7 +2,7 @@
 
 Portal de aplicaciones web, 100% en el navegador (sin backend), para generar informes estructurados de radiología de forma **point-and-click**, listos para copiar y pegar en el RIS. Cada herramienta vive en su propia carpeta bajo `apps/` y aparece automáticamente en la landing page de la raíz.
 
-**[➡ Abrir el portal](https://andresve19.github.io/)** *(sustituye este enlace una vez publicado en GitHub Pages)*
+**[➡ Abrir el portal](https://andresve19.github.io/)**
 
 ![Licencia](https://img.shields.io/badge/licencia-MIT-lightgrey)
 
