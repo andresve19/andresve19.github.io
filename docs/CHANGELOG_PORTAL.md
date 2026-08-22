@@ -2,6 +2,12 @@
 
 Historial de cambios en la arquitectura general del repositorio. Los cambios propios de cada app se documentan en su propio `apps/<slug>/docs/CHANGELOG.md`.
 
+## v2.1.0 — Añadida app Doppler TSA
+
+- Nueva app **Doppler de troncos supraaórticos** en `apps/doppler-tsa/`: informe estructurado con clasificación automática de estenosis de ACI (SRU/Grant 2003, NASCET y ASUM 2021) y anotación de placas sobre esquema anatómico.
+- Estética de la app homogeneizada con el resto del portal: paleta de colores compartida (`--primary`, `--accent`, `--ink`...), cabecera tipo *masthead* con degradado y enlace "← Portal de herramientas".
+- Añadida entrada en `assets/js/apps-manifest.js`; la tarjeta aparece automáticamente en la landing.
+
 ## v2.0.0 — Portal multi-app
 
 - Reestructuración completa del repositorio: de proyecto de una sola app a **portal de herramientas**.

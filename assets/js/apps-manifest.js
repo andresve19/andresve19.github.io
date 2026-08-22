@@ -21,6 +21,15 @@ const APPS_MANIFEST = [
     path: "apps/tiroides-tirads/index.html",
     status: "disponible",
     tags: ["Radiología", "Ecografía", "TI-RADS"]
+  },
+  {
+    slug: "doppler-tsa",
+    title: "Informe Estructurado · Doppler de Troncos Supraaórticos",
+    description:
+      "Generador point-and-click de informes de ecografía-Doppler de troncos supraaórticos, con clasificación automática de estenosis de ACI (SRU/Grant 2003, NASCET y ASUM 2021) y anotación de placas sobre esquema, listo para copiar al RIS.",
+    path: "apps/doppler-tsa/index.html",
+    status: "disponible",
+    tags: ["Radiología", "Ecografía", "Doppler", "TSA"]
   }
 
   // Ejemplo de próxima app (descomenta y adapta cuando la crees):

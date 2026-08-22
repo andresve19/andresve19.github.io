@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generador de Informe Estructurado · Doppler TSA</title>
+<meta name="description" content="Herramienta point-and-click para generar informes estructurados de ecografía-Doppler de troncos supraaórticos, con clasificación automática de estenosis de ACI (SRU/Grant 2003, NASCET y ASUM 2021) y anotación de placas, listos para copiar al RIS.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+<a href="../../index.html" class="breadcrumb">← Portal de herramientas</a>
+
+<header id="app-header">
+  <h1>Ecografía-Doppler de Troncos Supraaórticos</h1>
+  <p>Informe estructurado con clasificación automática de estenosis de ACI (SRU/Grant 2003, índice sonográfico NASCET y ASUM 2021) y anotación de placas</p>
+</header>
+
+<div id="layout">
+
+  <!-- ══════════════════ COLUMNA DE FORMULARIO ══════════════════ -->
+  <form id="tsa-form" autocomplete="off" onsubmit="return false;">
+  <div id="form-col">
+
+    <!-- ═══════════ CARÓTIDA DERECHA ═══════════ -->
+    <div class="card">
+      <div class="section-static-header">Eje carotídeo <span class="side-tag">Derecho</span></div>
+      <div class="section-body">
+
+        <div class="subsection">
+          <h3>Carótida común (ACC)</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="r-cca-psv">PSV</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="r-cca-psv" min="0" step="1"></div>
+            </div>
+            <div class="field">
+              <label for="r-cca-edv">VDF</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="r-cca-edv" min="0" step="1"></div>
+            </div>
+            <div class="field">
+              <label for="r-cca-imt">GIM</label>
+              <div class="unit-suffix" data-unit="mm"><input type="number" id="r-cca-imt" min="0" step="0.1"></div>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="r-cca-plaque">
+            <label for="r-cca-plaque">Placa de ateroma en ACC</label>
+          </div>
+          <div class="field wide" id="r-cca-plaque-desc-wrap" style="display:none">
+            <label for="r-cca-plaque-desc">Descripción de la placa</label>
+            <input type="text" id="r-cca-plaque-desc" placeholder="localización, ecogenicidad, superficie...">
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>Carótida interna (ACI)</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="r-ica-psv">PSV</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="r-ica-psv" min="0" step="1"></div>
+            </div>
+            <div class="field">
+              <label for="r-ica-edv">VDF</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="r-ica-edv" min="0" step="1"></div>
+            </div>
+            <div class="field wide">
+              <label for="r-ica-plaque-grade">Placa (estimación por escala de grises)</label>
+              <select id="r-ica-plaque-grade">
+                <option value="none">Sin placa</option>
+                <option value="lt50">Placa &lt;50%</option>
+                <option value="ge50">Placa ≥50%</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field wide">
+              <label for="r-ica-morphology">Morfología de la placa</label>
+              <select id="r-ica-morphology">
+                <option value="">—</option>
+                <option value="regular">Regular</option>
+                <option value="irregular">Irregular</option>
+                <option value="ulcerada">Ulcerada</option>
+              </select>
+            </div>
+            <div class="field wide">
+              <label for="r-ica-echogenicity">Ecogenicidad de la placa</label>
+              <select id="r-ica-echogenicity">
+                <option value="">—</option>
+                <option value="calcificada">Calcificada</option>
+                <option value="hipoecoica">Hipoecoica (blanda)</option>
+                <option value="heterogenea">Heterogénea (mixta)</option>
+                <option value="isoecoica">Isoecoica</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field wide">
+              <label for="r-nascet-broadening">Ensanchamiento espectral (si PSV &lt;125 cm/s)</label>
+              <select id="r-nascet-broadening">
+                <option value="">No valorado</option>
+                <option value="decelerativo">Decelerativo (sugiere &lt;15%)</option>
+                <option value="pansistolico">Pansistólico (sugiere 16-49%)</option>
+              </select>
+            </div>
+          </div>
+          <div class="flag-row">
+            <label class="checkbox-row"><input type="checkbox" id="r-ica-nearocclusion"> Casi-oclusión (flujo preoclusivo)</label>
+            <label class="checkbox-row"><input type="checkbox" id="r-ica-occlusion"> Oclusión total (sin flujo)</label>
+          </div>
+
+          <div class="classification-banner" id="r-ica-banner">Pendiente de datos</div>
+          <div class="consensus-grid">
+            <div class="consensus-pill" id="r-ica-nascet-pill"></div>
+            <div class="consensus-pill" id="r-ica-asum-pill"></div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>Carótida externa (ACE)</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="r-eca-psv">PSV</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="r-eca-psv" min="0" step="1"></div>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="r-eca-pattern-normal" checked>
+            <label for="r-eca-pattern-normal">Patrón de alta resistencia conservado</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ VERTEBRAL DERECHA ═══════════ -->
+    <div class="card">
+      <div class="section-static-header">Arteria vertebral <span class="side-tag">Derecha</span></div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field wide">
+            <label for="r-va-direction">Sentido de flujo</label>
+            <select id="r-va-direction">
+              <option value="antero">Anterógrado (normal)</option>
+              <option value="retro">Retrógrado</option>
+              <option value="alternante">Alternante / bidireccional</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="r-va-psv">PSV</label>
+            <div class="unit-suffix" data-unit="cm/s"><input type="number" id="r-va-psv" min="0" step="1"></div>
+          </div>
+          <div class="field">
+            <label for="r-va-edv">VDF</label>
+            <div class="unit-suffix" data-unit="cm/s"><input type="number" id="r-va-edv" min="0" step="1"></div>
+          </div>
+          <div class="field wide">
+            <label for="r-va-caliber">Calibre</label>
+            <select id="r-va-caliber">
+              <option value="normal">Normal</option>
+              <option value="hipoplasica">Hipoplásica</option>
+              <option value="asimetrica">Asimétrica</option>
+            </select>
+          </div>
+        </div>
+        <div class="classification-banner" id="r-va-banner">Pendiente de datos</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ CARÓTIDA IZQUIERDA ═══════════ -->
+    <div class="card">
+      <div class="section-static-header">Eje carotídeo <span class="side-tag">Izquierdo</span></div>
+      <div class="section-body">
+
+        <div class="subsection">
+          <h3>Carótida común (ACC)</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="l-cca-psv">PSV</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="l-cca-psv" min="0" step="1"></div>
+            </div>
+            <div class="field">
+              <label for="l-cca-edv">VDF</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="l-cca-edv" min="0" step="1"></div>
+            </div>
+            <div class="field">
+              <label for="l-cca-imt">GIM</label>
+              <div class="unit-suffix" data-unit="mm"><input type="number" id="l-cca-imt" min="0" step="0.1"></div>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="l-cca-plaque">
+            <label for="l-cca-plaque">Placa de ateroma en ACC</label>
+          </div>
+          <div class="field wide" id="l-cca-plaque-desc-wrap" style="display:none">
+            <label for="l-cca-plaque-desc">Descripción de la placa</label>
+            <input type="text" id="l-cca-plaque-desc" placeholder="localización, ecogenicidad, superficie...">
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>Carótida interna (ACI)</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="l-ica-psv">PSV</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="l-ica-psv" min="0" step="1"></div>
+            </div>
+            <div class="field">
+              <label for="l-ica-edv">VDF</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="l-ica-edv" min="0" step="1"></div>
+            </div>
+            <div class="field wide">
+              <label for="l-ica-plaque-grade">Placa (estimación por escala de grises)</label>
+              <select id="l-ica-plaque-grade">
+                <option value="none">Sin placa</option>
+                <option value="lt50">Placa &lt;50%</option>
+                <option value="ge50">Placa ≥50%</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field wide">
+              <label for="l-ica-morphology">Morfología de la placa</label>
+              <select id="l-ica-morphology">
+                <option value="">—</option>
+                <option value="regular">Regular</option>
+                <option value="irregular">Irregular</option>
+                <option value="ulcerada">Ulcerada</option>
+              </select>
+            </div>
+            <div class="field wide">
+              <label for="l-ica-echogenicity">Ecogenicidad de la placa</label>
+              <select id="l-ica-echogenicity">
+                <option value="">—</option>
+                <option value="calcificada">Calcificada</option>
+                <option value="hipoecoica">Hipoecoica (blanda)</option>
+                <option value="heterogenea">Heterogénea (mixta)</option>
+                <option value="isoecoica">Isoecoica</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field wide">
+              <label for="l-nascet-broadening">Ensanchamiento espectral (si PSV &lt;125 cm/s)</label>
+              <select id="l-nascet-broadening">
+                <option value="">No valorado</option>
+                <option value="decelerativo">Decelerativo (sugiere &lt;15%)</option>
+                <option value="pansistolico">Pansistólico (sugiere 16-49%)</option>
+              </select>
+            </div>
+          </div>
+          <div class="flag-row">
+            <label class="checkbox-row"><input type="checkbox" id="l-ica-nearocclusion"> Casi-oclusión (flujo preoclusivo)</label>
+            <label class="checkbox-row"><input type="checkbox" id="l-ica-occlusion"> Oclusión total (sin flujo)</label>
+          </div>
+
+          <div class="classification-banner" id="l-ica-banner">Pendiente de datos</div>
+          <div class="consensus-grid">
+            <div class="consensus-pill" id="l-ica-nascet-pill"></div>
+            <div class="consensus-pill" id="l-ica-asum-pill"></div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>Carótida externa (ACE)</h3>
+          <div class="field-row">
+            <div class="field">
+              <label for="l-eca-psv">PSV</label>
+              <div class="unit-suffix" data-unit="cm/s"><input type="number" id="l-eca-psv" min="0" step="1"></div>
+            </div>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="l-eca-pattern-normal" checked>
+            <label for="l-eca-pattern-normal">Patrón de alta resistencia conservado</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ VERTEBRAL IZQUIERDA ═══════════ -->
+    <div class="card">
+      <div class="section-static-header">Arteria vertebral <span class="side-tag">Izquierda</span></div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field wide">
+            <label for="l-va-direction">Sentido de flujo</label>
+            <select id="l-va-direction">
+              <option value="antero">Anterógrado (normal)</option>
+              <option value="retro">Retrógrado</option>
+              <option value="alternante">Alternante / bidireccional</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="l-va-psv">PSV</label>
+            <div class="unit-suffix" data-unit="cm/s"><input type="number" id="l-va-psv" min="0" step="1"></div>
+          </div>
+          <div class="field">
+            <label for="l-va-edv">VDF</label>
+            <div class="unit-suffix" data-unit="cm/s"><input type="number" id="l-va-edv" min="0" step="1"></div>
+          </div>
+          <div class="field wide">
+            <label for="l-va-caliber">Calibre</label>
+            <select id="l-va-caliber">
+              <option value="normal">Normal</option>
+              <option value="hipoplasica">Hipoplásica</option>
+              <option value="asimetrica">Asimétrica</option>
+            </select>
+          </div>
+        </div>
+        <div class="classification-banner" id="l-va-banner">Pendiente de datos</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ ESQUEMA Y PLACAS ═══════════ -->
+    <details class="card section" open>
+      <summary>Esquema y anotación de placas <span class="chev">▶</span></summary>
+      <div class="section-body">
+        <div id="diagram-toolbar">
+          <div id="size-wrap">
+            <label>Tamaño</label>
+            <input type="range" id="brush-size" min="2" max="36" value="8">
+            <div id="size-dot"></div>
+          </div>
+          <button type="button" class="btn-ghost" id="btn-clear-diagram">Limpiar esquema</button>
+          <button type="button" class="btn-ghost" id="btn-copy-diagram">Copiar esquema (imagen)</button>
+        </div>
+        <div id="diagram-wrap">
+          <img id="base-img" alt="Esquema de carótidas y arterias vertebrales">
+          <canvas id="paint-canvas"></canvas>
+        </div>
+        <p class="diagram-caption">Dibuje directamente sobre el esquema para señalar la localización de las placas. El botón copia la imagen anotada al portapapeles para pegarla donde se necesite.</p>
+      </div>
+    </details>
+
+    <!-- ═══════════ OTROS HALLAZGOS ═══════════ -->
+    <details class="card section">
+      <summary>Otros hallazgos y limitaciones <span class="chev">▶</span></summary>
+      <div class="section-body">
+        <div class="field full">
+          <label for="otros-hallazgos">Otros hallazgos (opcional)</label>
+          <textarea id="otros-hallazgos" placeholder="hallazgos adicionales no contemplados en el formulario..."></textarea>
+        </div>
+        <div class="field full">
+          <label for="limitaciones">Limitaciones técnicas (opcional)</label>
+          <textarea id="limitaciones" placeholder="p. ej. mala ventana acústica, calcificación extensa que limita la valoración..."></textarea>
+        </div>
+      </div>
+    </details>
+
+  </div>
+  </form>
+
+  <!-- ══════════════════ COLUMNA DE INFORME ══════════════════ -->
+  <div id="report-col">
+    <div class="card" id="report-card">
+      <div class="report-head">
+        <span class="dot"></span>
+        <h2>Informe</h2>
+      </div>
+      <div id="report-text"></div>
+      <div class="report-actions">
+        <button type="button" class="btn-primary" id="btn-copy">Copiar informe</button>
+        <button type="button" class="btn-secondary" id="btn-reset">Reiniciar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<footer id="app-footer">
+  Herramienta de apoyo a la redacción de informes. Clasificación de estenosis de ACI según SRU/Grant et al. (Radiology 2003;229(2):340-6), índice sonográfico NASCET y Australasian Society for Ultrasound in Medicine (ASUM, 2021). No sustituye el juicio clínico del radiólogo.
+</footer>
+
+<script src="js/diagram-image.js"></script>
+<script src="js/classification.js"></script>
+<script src="js/painter.js"></script>
+<script src="js/report.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

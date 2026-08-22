@@ -13,6 +13,7 @@ Portal de aplicaciones web, 100% en el navegador (sin backend), para generar inf
 | Herramienta | Descripción | Enlace directo |
 |---|---|---|
 | Ecografía tiroidea (ACR TI-RADS) | Generador de informes con cálculo automático de categoría TR y recomendación de PAAF/seguimiento | [`apps/tiroides-tirads/`](apps/tiroides-tirads/) |
+| Doppler de troncos supraaórticos (TSA) | Generador de informes con clasificación automática de estenosis de ACI (SRU/Grant 2003, NASCET y ASUM 2021) y anotación de placas sobre esquema | [`apps/doppler-tsa/`](apps/doppler-tsa/) |
 
 *(Esta tabla es orientativa; la lista siempre actualizada se genera desde [`assets/js/apps-manifest.js`](assets/js/apps-manifest.js) y se muestra en la landing page.)*
 
@@ -29,10 +30,16 @@ Portal de aplicaciones web, 100% en el navegador (sin backend), para generar inf
 │       ├── apps-manifest.js        # Lista de apps publicadas — fuente única de verdad
 │       └── landing.js              # Renderiza las tarjetas de apps a partir del manifiesto
 ├── apps/
-│   └── tiroides-tirads/            # Primera app del portal
+│   ├── tiroides-tirads/             # Ecografía tiroidea (ACR TI-RADS)
+│   │   ├── index.html
+│   │   ├── css/style.css
+│   │   ├── js/app.js
+│   │   ├── docs/
+│   │   └── README.md
+│   └── doppler-tsa/                 # Doppler de troncos supraaórticos
 │       ├── index.html
 │       ├── css/style.css
-│       ├── js/app.js
+│       ├── js/                      # app.js, classification.js, painter.js, report.js, diagram-image.js
 │       ├── docs/
 │       └── README.md
 ├── docs/

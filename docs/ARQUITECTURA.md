@@ -41,6 +41,7 @@ Con el repositorio publicado en la rama `main`, carpeta raíz:
 |---|---|
 | Landing page | `https://TU-USUARIO.github.io/TU-REPOSITORIO/` |
 | App de tiroides (TI-RADS) | `https://TU-USUARIO.github.io/TU-REPOSITORIO/apps/tiroides-tirads/` |
+| App de Doppler TSA | `https://TU-USUARIO.github.io/TU-REPOSITORIO/apps/doppler-tsa/` |
 
 Cada app es también accesible de forma directa, sin pasar por la landing, por si quieres enlazarla o guardarla en favoritos de forma independiente.
 
