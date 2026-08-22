@@ -14,6 +14,7 @@ Portal de aplicaciones web, 100% en el navegador (sin backend), para generar inf
 |---|---|---|
 | Ecografía tiroidea (ACR TI-RADS) | Generador de informes con cálculo automático de categoría TR y recomendación de PAAF/seguimiento | [`apps/tiroides-tirads/`](apps/tiroides-tirads/) |
 | Doppler de troncos supraaórticos (TSA) | Generador de informes con clasificación automática de estenosis de ACI (SRU/Grant 2003, NASCET y ASUM 2021) y anotación de placas sobre esquema | [`apps/doppler-tsa/`](apps/doppler-tsa/) |
+| TC de senos paranasales (Lund-Mackay) | Generador de informes con cálculo automático del score de Lund-Mackay por seno y complejo osteomeatal, y registro de variantes anatómicas quirúrgicas | [`apps/lund-mackay/`](apps/lund-mackay/) |
 
 *(Esta tabla es orientativa; la lista siempre actualizada se genera desde [`assets/js/apps-manifest.js`](assets/js/apps-manifest.js) y se muestra en la landing page.)*
 
