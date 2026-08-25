@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de Informe Estructurado · Metástasis Vertebrales (SINS / ESCC-Bilsky)</title>
+<meta name="description" content="Herramienta point-and-click para generar informes estructurados de metástasis vertebrales, con clasificación de inestabilidad (SINS) y de compresión epidural (ESCC/Bilsky) por nivel vertebral, listos para copiar al RIS.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <a href="../../index.html" class="breadcrumb">← Portal de herramientas</a>
+
+    <div class="masthead">
+        <div class="title-block">
+            <h1>Informe Estructurado de Metástasis Vertebrales</h1>
+            <p>Inestabilidad espinal (SINS, Fisher et al. 2010) y compresión epidural (ESCC/Bilsky, Bilsky et al. 2010) por nivel · listo para copiar al RIS</p>
+        </div>
+        <button class="btn-reset" onclick="resetAll()">↺ Nuevo informe</button>
+    </div>
+
+    <div class="panel">
+        <h2 class="panel-title">Datos del estudio</h2>
+        <div class="cols-2">
+            <div class="form-group">
+                <label>Indicación clínica</label>
+                <input type="text" id="indication" placeholder="p. ej. dolor dorsal en paciente oncológico, estudio de extensión…" oninput="updateMeta()">
+            </div>
+            <div class="form-group">
+                <label>Comparación con estudio previo</label>
+                <input type="text" id="priorStudy" placeholder="opcional: fecha o hallazgos del estudio previo" oninput="updateMeta()">
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-layout" id="gridLayout">
+        <!-- IZQUIERDA: LESIONES -->
+        <div id="lesionsColumn">
+            <div id="lesionsContainer"></div>
+
+            <button class="btn-add-lesion" onclick="addLesion()">+ Añadir otra lesión vertebral</button>
+
+            <div class="panel">
+                <h2 class="panel-title">Otros hallazgos</h2>
+                <div class="form-group">
+                    <label>Otros hallazgos (texto libre)</label>
+                    <textarea id="additionalFindings" rows="3" placeholder="p. ej. otras lesiones óseas no vertebrales, afectación de partes blandas paravertebrales…" oninput="updateMeta()"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- DERECHA: RESULTADOS -->
+        <div class="results-panel">
+            <div class="panel">
+                <h2 class="panel-title">Resumen global</h2>
+                <div class="score-banner" id="globalSummary"></div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Vista previa del informe</h2>
+                <div class="consolidated-report" id="reportPreview">Cargando…</div>
+
+                <button class="btn-copy" onclick="copyReportToClipboard()">📋 Copiar informe al portapapeles</button>
+                <div class="toast" id="copyToast">Informe copiado correctamente</div>
+
+                <p class="disclaimer">Esta plantilla apoya la redacción del informe pero no sustituye el criterio del radiólogo ni la valoración clínica multidisciplinar (oncología, neurocirugía/cirugía de columna, radioterapia). Revise siempre el texto generado antes de insertarlo en el RIS.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="expert-section">
+        <h2>Consejos y recordatorios</h2>
+        <ul class="expert-list">
+            <li><strong>SINS (Spinal Instability Neoplastic Score):</strong> puntúa 6 componentes (localización, dolor, tipo de lesión ósea, alineación, colapso vertebral y afectación posterolateral) de 0 a 18. 0-6 = estable, 7-12 = indeterminada/potencialmente inestable, 13-18 = inestable. Una puntuación ≥7 debe motivar valoración por cirugía de columna.</li>
+            <li><strong>Localización sugerida automáticamente:</strong> al elegir el cuerpo vertebral se propone la puntuación de localización (charnela / columna móvil / semirrígida / rígida) según la tabla original de SINS; puede modificarse manualmente si el caso lo requiere.</li>
+            <li><strong>ESCC / Bilsky:</strong> grado de compresión epidural del canal, de 0 (tumor confinado al hueso) a 3 (compresión medular sin LCR perimedular visible). Los grados 1c-3 (contacto o compresión medular) son los de mayor relevancia para decidir entre radioterapia convencional, radiocirugía estereotáxica o cirugía descompresiva.</li>
+            <li><strong>Cola de caballo:</strong> por debajo del cono medular (aproximadamente L1-L2) no existe médula espinal; la escala ESCC/Bilsky se diseñó para compresión medular, por lo que en niveles lumbosacros bajos se aplica de forma descriptiva a la afectación del saco tecal y las raíces de la cola de caballo.</li>
+            <li><strong>Ambas escalas son complementarias:</strong> SINS valora la inestabilidad mecánica de la columna (riesgo de fractura/deformidad) y ESCC valora el compromiso neural por el propio tumor; una lesión puede ser mecánicamente estable y tener compresión medular grave, o viceversa.</li>
+        </ul>
+    </section>
+
+    <footer style="text-align:center; margin-top:22px; padding:14px; font-size:8pt; color:var(--ink-soft);">
+        Generador de Informe Estructurado · Metástasis Vertebrales (SINS / ESCC-Bilsky) · Herramienta de apoyo, no sustituye el criterio clínico del radiólogo.
+    </footer>
+
+</div>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>

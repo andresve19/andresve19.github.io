@@ -39,6 +39,15 @@ const APPS_MANIFEST = [
     path: "apps/lund-mackay/index.html",
     status: "disponible",
     tags: ["Radiología", "Cabeza y cuello", "TC", "Senos paranasales"]
+  },
+  {
+    slug: "columna-metastasis",
+    title: "Informe Estructurado · Metástasis Vertebrales (SINS / ESCC-Bilsky)",
+    description:
+      "Generador point-and-click de informes de metástasis vertebrales por nivel, con cálculo automático de la inestabilidad espinal (SINS) y clasificación de la compresión epidural (ESCC/Bilsky), listo para copiar al RIS.",
+    path: "apps/columna-metastasis/index.html",
+    status: "disponible",
+    tags: ["Radiología", "Columna", "Oncología", "SINS", "ESCC/Bilsky"]
   }
 
   // Ejemplo de próxima app (descomenta y adapta cuando la crees):
