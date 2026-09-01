@@ -21,20 +21,6 @@
         <button class="btn-reset" onclick="resetAll()">↺ Nuevo informe</button>
     </div>
 
-    <div class="panel">
-        <h2 class="panel-title">Datos del estudio</h2>
-        <div class="cols-2">
-            <div class="form-group">
-                <label>Indicación clínica</label>
-                <input type="text" id="indication" placeholder="p. ej. dolor dorsal en paciente oncológico, estudio de extensión…" oninput="updateMeta()">
-            </div>
-            <div class="form-group">
-                <label>Comparación con estudio previo</label>
-                <input type="text" id="priorStudy" placeholder="opcional: fecha o hallazgos del estudio previo" oninput="updateMeta()">
-            </div>
-        </div>
-    </div>
-
     <div class="grid-layout" id="gridLayout">
         <!-- IZQUIERDA: LESIONES -->
         <div id="lesionsColumn">

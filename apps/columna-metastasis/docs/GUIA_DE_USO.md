@@ -1,10 +1,6 @@
 # Guía de uso · Metástasis Vertebrales (SINS / ESCC-Bilsky)
 
-## 1. Datos del estudio
-
-Rellena, si procede, la **indicación clínica** y la **comparación con estudio previo**. Ambos campos son opcionales y de texto libre; aparecen al inicio del informe si se completan.
-
-## 2. Registrar una lesión vertebral
+## 1. Registrar una lesión vertebral
 
 Cada lesión se documenta en su propia tarjeta:
 
@@ -14,7 +10,7 @@ Cada lesión se documenta en su propia tarjeta:
 
 Usa **"+ Añadir otra lesión vertebral"** para documentar más niveles afectados. Cada tarjeta puede eliminarse con **"✕ Eliminar lesión"** (se mantiene siempre al menos una).
 
-## 3. Puntuación SINS (0-18)
+## 2. Puntuación SINS (0-18)
 
 | Componente | Opciones | Puntos |
 |---|---|---|
@@ -27,7 +23,7 @@ Usa **"+ Añadir otra lesión vertebral"** para documentar más niveles afectado
 
 La puntuación total (0-18) se muestra en tiempo real en la banda superior de cada tarjeta, junto con su categoría: **estable** (0-6), **indeterminada/potencialmente inestable** (7-12) o **inestable** (13-18).
 
-## 4. Grado ESCC/Bilsky
+## 3. Grado ESCC/Bilsky
 
 Escala de 0 a 3 que valora la compresión epidural del canal por la propia lesión:
 
@@ -42,7 +38,7 @@ Escala de 0 a 3 que valora la compresión epidural del canal por la propia lesi�
 
 Para niveles por debajo del cono medular (aproximadamente L2 y distales), la herramienta muestra un aviso indicando que la escala se aplica de forma descriptiva a la afectación del saco tecal y las raíces de la cola de caballo, ya que no existe médula espinal a ese nivel.
 
-## 5. Resumen global e informe
+## 4. Resumen global e informe
 
 El panel de resultados muestra en todo momento:
 
@@ -51,10 +47,10 @@ El panel de resultados muestra en todo momento:
 
 La **vista previa del informe** ordena automáticamente las lesiones de craneal a caudal e incluye el detalle por nivel, el resumen global y una impresión diagnóstica con recomendaciones orientativas (valoración por cirugía de columna si SINS ≥7, valoración conjunta con oncología radioterápica/neurocirugía si hay compresión medular relevante).
 
-## 6. Copiar el informe
+## 5. Copiar el informe
 
 Pulsa **"Copiar informe al portapapeles"** y pégalo directamente en el RIS.
 
-## 7. Empezar un informe nuevo
+## 6. Empezar un informe nuevo
 
 El botón **"↺ Nuevo informe"** de la cabecera restablece todos los campos y lesiones a sus valores por defecto, tras confirmación.

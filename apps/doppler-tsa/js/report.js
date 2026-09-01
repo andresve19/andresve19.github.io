@@ -109,9 +109,6 @@ function buildReportText(state, computed) {
   const L = [];
   L.push("ECOGRAFÍA-DOPPLER DE TRONCOS SUPRAAÓRTICOS (TSA)");
   L.push("");
-  L.push("TÉCNICA:");
-  L.push("Estudio mediante ecografía Doppler color y pulsado de los ejes carotídeos y de las arterias vertebrales extracraneales, de forma bilateral, con transductor lineal de alta frecuencia.");
-  L.push("");
 
   L.push("HALLAZGOS:");
   L.push("");

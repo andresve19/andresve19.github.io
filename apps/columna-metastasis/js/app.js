@@ -111,7 +111,7 @@
     // ---------- ESTADO ----------
     let lesions = [];
     let lesionCounter = 0;
-    let meta = { indication: '', priorStudy: '', additionalFindings: '' };
+    let meta = { additionalFindings: '' };
 
     function freshLesion(level) {
         const lvl = level || 'T1';
@@ -290,8 +290,6 @@
 
     // ---------- METADATOS ----------
     function updateMeta() {
-        meta.indication = document.getElementById('indication').value;
-        meta.priorStudy = document.getElementById('priorStudy').value;
         meta.additionalFindings = document.getElementById('additionalFindings').value;
         refresh();
     }
@@ -354,10 +352,6 @@
 
         text += "RM/TC DE COLUMNA — METÁSTASIS VERTEBRALES — INFORME ESTRUCTURADO\n";
         text += "===================================================================\n\n";
-
-        if (meta.indication) text += `Indicación clínica: ${meta.indication}\n`;
-        if (meta.priorStudy) text += `Comparación con estudio previo: ${meta.priorStudy}\n`;
-        if (meta.indication || meta.priorStudy) text += "\n";
 
         text += "HALLAZGOS POR NIVEL VERTEBRAL\n";
         text += "--------------------------------\n\n";
@@ -430,10 +424,8 @@
     // ---------- RESET ----------
     function resetAll() {
         if (!confirm("Esto borrará todos los datos introducidos y comenzará un informe nuevo. ¿Continuar?")) return;
-        document.getElementById('indication').value = '';
-        document.getElementById('priorStudy').value = '';
         document.getElementById('additionalFindings').value = '';
-        meta = { indication: '', priorStudy: '', additionalFindings: '' };
+        meta = { additionalFindings: '' };
         lesions = [];
         lesions.push(freshLesion());
         renderLesions();

@@ -56,7 +56,7 @@
         });
         const variants = {};
         VARIANTS.forEach(v => { variants[v.key] = 'none'; });
-        return { sides, variants, indication: '', priorStudy: '', additionalFindings: '' };
+        return { sides, variants, additionalFindings: '' };
     }
 
     let data = freshData();
@@ -141,8 +141,6 @@
 
     // ---------- METADATOS ----------
     function updateMeta() {
-        data.indication = document.getElementById('indication').value;
-        data.priorStudy = document.getElementById('priorStudy').value;
         data.additionalFindings = document.getElementById('additionalFindings').value;
         refresh();
     }
@@ -184,10 +182,6 @@
 
         text += "TC DE SENOS PARANASALES — INFORME ESTRUCTURADO\n";
         text += "================================================\n\n";
-
-        if (data.indication) text += `Indicación clínica: ${data.indication}\n`;
-        if (data.priorStudy) text += `Comparación con estudio previo: ${data.priorStudy}\n`;
-        if (data.indication || data.priorStudy) text += "\n";
 
         text += "HALLAZGOS — SCORE DE LUND-MACKAY\n";
         text += "----------------------------------\n\n";
@@ -244,8 +238,6 @@
     // ---------- RESET ----------
     function resetAll() {
         if (!confirm("Esto borrará todos los datos introducidos y comenzará un informe nuevo. ¿Continuar?")) return;
-        document.getElementById('indication').value = '';
-        document.getElementById('priorStudy').value = '';
         document.getElementById('additionalFindings').value = '';
         data = freshData();
         renderSidePanel('D');

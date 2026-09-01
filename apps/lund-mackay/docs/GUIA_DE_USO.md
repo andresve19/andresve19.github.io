@@ -1,10 +1,6 @@
 # Guía de uso · TC Senos Paranasales (Lund-Mackay)
 
-## 1. Datos del estudio
-
-Rellena, si procede, la **indicación clínica** y la **comparación con estudio previo**. Ambos campos son opcionales y de texto libre; aparecen al inicio del informe si se completan.
-
-## 2. Puntuación por seno y lado
+## 1. Puntuación por seno y lado
 
 Para cada lado (**derecho** e **izquierdo**) se puntúan 6 estructuras:
 
@@ -19,18 +15,18 @@ Para cada lado (**derecho** e **izquierdo**) se puntúan 6 estructuras:
 
 Todos los campos parten en "No opacificado / No obstruido" (0 puntos); solo hace falta tocar los que estén alterados. El subtotal de cada lado (máximo 12) se actualiza en tiempo real en la banda superior de cada panel.
 
-## 3. Puntuación total
+## 2. Puntuación total
 
 El panel de resultados muestra la **puntuación total de Lund-Mackay** (0-24), junto con el desglose por lado, actualizada automáticamente con cada cambio.
 
-## 4. Variantes anatómicas y otros hallazgos
+## 3. Variantes anatómicas y otros hallazgos
 
 Sección opcional para documentar variantes con relevancia quirúrgica (concha bullosa, celda de Haller, célula de Onodi, dehiscencias, arteria etmoidal anterior procidente, desviación septal) y un campo de texto libre para otros hallazgos (p. ej. quistes de retención, pólipos). Solo lo que se marque como presente aparece en el informe final.
 
-## 5. Copiar el informe
+## 4. Copiar el informe
 
 El texto final se genera automáticamente en la "Vista previa del informe". Pulsa **"Copiar informe al portapapeles"** y pégalo directamente en el RIS.
 
-## 6. Empezar un informe nuevo
+## 5. Empezar un informe nuevo
 
 El botón **"↺ Nuevo informe"** de la cabecera restablece todos los campos a sus valores por defecto, tras confirmación.
